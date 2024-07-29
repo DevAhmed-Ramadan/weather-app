@@ -10,7 +10,7 @@ export default function useVerse() {
     return useQuery<VerseData, Error>({
         queryKey: ['Verse'],
         queryFn: async () => {
-            const response = await axios.get<{ data: VerseData }>(`http://api.alquran.cloud/v1/ayah/${getRandomVerseNumber()}`)
+            const response = await axios.get<{ data: VerseData }>(`https://api.alquran.cloud/v1/ayah/${getRandomVerseNumber()}`)
             if (response.data && response.data.data) {
                 return response.data.data;
             }

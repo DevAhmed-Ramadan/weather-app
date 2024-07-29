@@ -26,7 +26,7 @@ export function usePrayerTimes(): PrayerTimesHookResult {
             const timestamp = Math.floor(Date.now() / 1000);
             
             if (searchCountry.length > 2) {
-                const response = await axios.get<ApiResponse>(`http://api.aladhan.com/v1/timingsByAddress/${timestamp}`, {
+                const response = await axios.get<ApiResponse>(`https://api.aladhan.com/v1/timingsByAddress/${timestamp}`, {
                     params: {
                         address: searchCountry,
                         method: 2
@@ -34,7 +34,7 @@ export function usePrayerTimes(): PrayerTimesHookResult {
                 });
                 return response.data;
             } else if (latitude && longitude) {
-                const response = await axios.get<ApiResponse>(`http://api.aladhan.com/v1/timings/${timestamp}`, {
+                const response = await axios.get<ApiResponse>(`https://api.aladhan.com/v1/timings/${timestamp}`, {
                     params: {
                         latitude,
                         longitude,
