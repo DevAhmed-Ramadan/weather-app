@@ -2,7 +2,7 @@ import axios from 'axios';
 import useGeolocation from './useGeolocation';
 import { useQuery } from '@tanstack/react-query';
 import { WeatherApiResponse } from '../Interfaces/WeatherApiResponse';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { SearchContext } from '../Context/SearchContext';
 
 export default function useWeather() {
@@ -21,7 +21,7 @@ export default function useWeather() {
     const ApiKey = import.meta.env.VITE_API_KEY;
     const cleanedApiKey = cleanApiKey(ApiKey);
 
-    const { longitude, latitude, error1 } = useGeolocation();
+    const { longitude, latitude } = useGeolocation();
 
 
 

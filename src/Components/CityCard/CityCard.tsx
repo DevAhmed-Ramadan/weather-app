@@ -8,7 +8,7 @@ interface CityCardProps {
 }
 
 const CityCard: React.FC<CityCardProps> = ({ selectedCountry }) => {
-    const [storedWeatherData, setStoredWeatherData] = useState<WeatherApiResponse[]>([]);
+    const [weatherDataArray, setWeatherDataArray] = useState<WeatherApiResponse[]>([]);
 
     const cleanApiKey = (key: string): string => {
         return key.replace(/[+;].*$/, '').trim();
@@ -23,7 +23,7 @@ const CityCard: React.FC<CityCardProps> = ({ selectedCountry }) => {
     };
 
     useEffect(() => {
-        setStoredWeatherData(getStoredWeatherData());
+        setWeatherDataArray(getStoredWeatherData());
     }, []);
 
     const { data, error, isLoading } = useQuery<WeatherApiResponse, Error>({
@@ -40,26 +40,31 @@ const CityCard: React.FC<CityCardProps> = ({ selectedCountry }) => {
                 }
             });
 
-            let weatherDataArray = getStoredWeatherData();
-
-            // Check if the country already exists in the stored data
-            const existingIndex = weatherDataArray.findIndex(item => item.location.name === response.data.location.name);
-
-            if (existingIndex !== -1) {
-                // Update existing data
-                weatherDataArray[existingIndex] = response.data;
-            } else {
-                // Add new data
-                weatherDataArray.push(response.data);
-            }
-
-            localStorage.setItem('weatherDataArray', JSON.stringify(weatherDataArray));
-            setStoredWeatherData(weatherDataArray);
+            const updatedWeatherDataArray = updateWeatherDataArray(response.data);
+            setWeatherDataArray(updatedWeatherDataArray);
 
             return response.data;
         },
         enabled: !!selectedCountry,
     });
+
+    const updateWeatherDataArray = (newData: WeatherApiResponse): WeatherApiResponse[] => {
+        const existingIndex = weatherDataArray.findIndex(item => item.location.name === newData.location.name);
+        let updatedArray;
+
+        if (existingIndex !== -1) {
+            updatedArray = [
+                ...weatherDataArray.slice(0, existingIndex),
+                newData,
+                ...weatherDataArray.slice(existingIndex + 1)
+            ];
+        } else {
+            updatedArray = [...weatherDataArray, newData];
+        }
+
+        localStorage.setItem('weatherDataArray', JSON.stringify(updatedArray));
+        return updatedArray;
+    };
 
     if (error) return <div>Error: {error.message}</div>;
     if (isLoading) return <div>Loading...</div>;
@@ -78,6 +83,9 @@ const CityCard: React.FC<CityCardProps> = ({ selectedCountry }) => {
     return (
         <>
             {data && renderWeatherCard(data)}
+            {weatherDataArray.map((item) => (
+                item.location.name !== data?.location.name && renderWeatherCard(item)
+            ))}
         </>
     );
 };
