@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.loader {
+    --r1: 154%;
+    --r2: 68.5%;
+    width: 100px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(var(--r1) var(--r2) at top,
+            #0000 79.5%,
+            #269af2 80%),
+        radial-gradient(var(--r1) var(--r2) at bottom, #269af2 79.5%, #0000 80%),
+        radial-gradient(var(--r1) var(--r2) at top, #0000 79.5%, #269af2 80%), #ccc;
+    background-size: 50.5% 220%;
+    background-position: -100% 0%, 0% 0%, 100% 0%;
+    background-repeat: no-repeat;
+    animation: l9 2s infinite linear;
+}
+
+@keyframes l9 {
+    33% {
+        background-position: 0% 33%, 100% 33%, 200% 33%;
+    }
+
+    66% {
+        background-position: -100% 66%, 0% 66%, 100% 66%;
+    }
+
+    100% {
+        background-position: 0% 100%, 100% 100%, 200% 100%;
+    }
+}
+
+
+
+.weather_gradient {
+    background: linear-gradient(#68BBFF 50%, #4678FD 64%);
+}
+
+.background-7-Days {
+    background: linear-gradient(170.05deg, #68BBFF 24.5%, #4678FD 133.01%);
+}
+
+.temp-text-color {
+    background: linear-gradient(white 80%, transparent 20%);
+}
+
+.wind::after,
+.humidity::after {
+    content: "";
+    position: absolute;
+    top: 11px;
+    right: -39px;
+    width: 1px;
+    height: 80%;
+    background-color: white;
+}
+
+.input {
+    --rounded-btn: 1.5rem;
+}
+
+._toggle-switch_31898_1 {
+    width: 108px;
+    height: 50px;
+    border-radius: 50px;
+    /* background-color: #ccc; */
+    border: white 3px solid;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 7px;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
